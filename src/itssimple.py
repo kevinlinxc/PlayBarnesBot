@@ -1,17 +1,15 @@
+import os
+import random
+from random import randint
 import tweepy
 from pytrends.request import TrendReq
-from random import seed
-from random import randint
-import random
-import os
 
 # Constants:
 NumOptions = 3
-cwd = os.getcwd()
 
 # Tweepy authentication
-auth = tweepy.OAuthHandler(1, 2)
-auth.set_access_token("1", True)
+auth = tweepy.OAuthHandler(1,2)
+auth.set_access_token(1,2)
 api = tweepy.API(auth)
 try:
     api.verify_credentials()
@@ -23,23 +21,20 @@ except:
 # Helper methods
 def checkHistory(string):
     with open('search.txt') as file:
-        contents = file.read()
-        search_word = input(string)
-        if search_word in contents:
-            print('Word has been used already')
+        if string in file.read():
+            print(string+ ' has been used already')
             return True
         else:
-            print('Acceptable word')
+            print(string+' hasn\'t been used before')
             return False
 
 def addHistory(string):
-    with open('search.txt') as file:
-        file.write(string+"\n")
-
+    with open('search.txt', "a", encoding="utf-8") as file:
+        file.write(string)
+        file.write("\n")
 
 printString = ""
 randomPick = randint(0, NumOptions)
-randomPick = 0
 found = 1
 
 while found < 2:
@@ -56,16 +51,17 @@ while found < 2:
                 else:
                     addHistory(row.title)
                     printString = row.title
+                    found = 5
     elif randomPick == 1:
         lines = open("samples.txt").read().splitlines()
         print("Chose Samples")
         chosenSamplesString = random.choice(lines)
         if(checkHistory(chosenSamplesString)):
             print("Searching for new word")
-            break
         else:
             addHistory(chosenSamplesString)
             printString = chosenSamplesString
+            found = 5
     else:
         lines = open("cah.txt", encoding="utf8").read().splitlines()
         print("Chose CAH")
@@ -76,9 +72,11 @@ while found < 2:
         else:
             addHistory(chosenCAHString)
             printString = chosenCAHString
-    found = 5
+            found = 5
 
-print('Chosen word: ' + str(printString))
+
+api.update_status('It\'s simple, I play Barnes and I summon ' + str(printString))
+
 # related_queries_dict = pytrends.related_queries() related to games
 # print(related_queries_dict)
 
