@@ -1,0 +1,8 @@
+{
+  "keys": {
+    "api_key": 1,
+    "api_key_secret": 2,
+    "consumer_key": 3,
+    "consumer_key_secret": 4
+  }
+}
