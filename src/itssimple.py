@@ -89,7 +89,13 @@ while found < 2:
             printString = chosenCAHString
             found = 5
 
-api.update_status('It\'s simple, I play Barnes and I summon ' + str(printString))
+fullsend = input("Do you want ot tweet " + str(printString) + " Y or N")
+if(fullsend == "Y" or fullsend == "y"):
+    api.update_status('It\'s simple, I play Barnes and I summon ' + str(printString))
+    print("Sent")
+else:
+    print("Not sent. Rerun to get another candidate string")
+
 
 # related_queries_dict = pytrends.related_queries() related to games
 # print(related_queries_dict)
