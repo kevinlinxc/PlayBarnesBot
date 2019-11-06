@@ -7,6 +7,8 @@ import json
 
 # Constants:
 NumOptions = 3
+verifyOn = True
+testingOn = False
 
 # Open config file
 with open('config.json') as config_file:
@@ -16,7 +18,6 @@ with open('config.json') as config_file:
 auth = tweepy.OAuthHandler(config['keys']['api_key'], config['keys']['api_key_secret'])
 auth.set_access_token(config['keys']['consumer_key'], config['keys']['consumer_key_secret'])
 api = tweepy.API(auth)
-
 try:
     api.verify_credentials()
     print("Authentication OK")
@@ -43,14 +44,23 @@ def addHistory(string):
         file.write("\n")
 
 
-#set up shit
+# Prints statements out if testingOn or tweets them otherwise
+def printOrTweet(string):
+    if (testingOn):
+        print(string)
+    else:
+        api.update_status(string)
+        print("Sent")
+
+
+# set up shit
 printString = ""
 randomPick = randint(0, NumOptions)
 found = 1
 
-#find words until we find a new word
+# find words until we find a new word
 while found < 2:
-    #The Google Trends outcome:
+    # The Google Trends outcome:
     pytrends = TrendReq(hl='en-US', tz=360)
     if randomPick == 0:
         year = randint(2006, 2018)
@@ -65,7 +75,7 @@ while found < 2:
                     addHistory(row.title)
                     printString = row.title
                     found = 5
-    #The self-written quips outcome:
+    # The self-written quips outcome:
     elif randomPick == 1:
         lines = open("samples.txt").read().splitlines()
         print("Chose Samples")
@@ -76,7 +86,7 @@ while found < 2:
             addHistory(chosenSamplesString)
             printString = chosenSamplesString
             found = 5
-    #The Card Against Humanity outcome
+    # The Card Against Humanity outcome
     else:
         lines = open("cah.txt", encoding="utf8").read().splitlines()
         print("Chose CAH")
@@ -89,23 +99,32 @@ while found < 2:
             printString = chosenCAHString
             found = 5
 
-fullsend = input("Do you want ot tweet " + str(printString) + " Y or N")
-if(fullsend == "Y" or fullsend == "y"):
-    api.update_status('It\'s simple, I play Barnes and I summon ' + str(printString))
-    print("Sent")
+if (verifyOn):
+    fullsend = input("Do you want to tweet " + str(printString) + " Y or N")
+    if (fullsend == "Y" or fullsend == "y"):
+        printOrTweet('It\'s simple, I play Barnes and I summon ' + str(printString))
+    elif (fullsend == "N" or fullsend == "n"):
+        print("Not sent. Rerun to get another candidate string")
+    else:
+        printOrTweet('It\'s simple, I play Barnes and I summon ' + fullsend + " " + str(printString))
 else:
-    print("Not sent. Rerun to get another candidate string")
+    printOrTweet('It\'s simple, I play Barnes and I summon ' + str(printString))
 
 
+
+
+# for related queries
 # related_queries_dict = pytrends.related_queries() related to games
 # print(related_queries_dict)
 
-# api.update_status("It's simple, I play Barnes and I summon")
+# for a payload
 # kw_list = ["Games"]
 # pytrends.build_payload(kw_list, cat=41, timeframe='now 1-d', geo='', gprop='')
 
-# trending_searches_df = pytrends.trending_searches() #trending searches right now
+# for trending searches right now
+# trending_searches_df = pytrends.trending_searches()
 # print(trending_searches_df.head())
 
+# for top charts for a certain year
 # top_charts_df = pytrends.top_charts(2006, hl='en-US', tz=300, geo='GLOBAL')
 # print(top_charts_df.head(10)[0])
