@@ -1,3 +1,4 @@
 self-aware Python bots
 Duracell myGrid
 a Bop It™.
+a NordVPN sponsorship
