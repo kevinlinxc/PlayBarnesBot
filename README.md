@@ -1,7 +1,7 @@
 # Description
-This bot is a Twitter bot that tweets "Its simple, I play Barnes and I summon ____" as a variation of the joke by Darkk Mane, a video game youtuber.
+This bot is a Twitter bot that tweets "Its simple, I play Barnes and I summon ____" as a variation of the joke by Darkk Mane, a video game youtuber.  
 As of January 5th 2020, I have integrated this code with AWS Lambda to make it run this code every day.
-Read about my troubleshooting here: https://medium.com/@kevinlinxc/troubleshooting-while-turning-a-pycharm-project-into-an-aws-lambda-function-windows-cec052e6b01c?source=friends_link&sk=7618db9e8706a31c94b87061a732287d
+Read about my troubleshooting [here](https://medium.com/@kevinlinxc/troubleshooting-while-turning-a-pycharm-project-into-an-aws-lambda-function-windows-cec052e6b01c?source=friends_link&sk=7618db9e8706a31c94b87061a732287d): 
 ## Current Blank Fillers:
 1. Google Trends Hot Topics from 2006-2018
 2. Random quips that I wrote (samples.txt)
